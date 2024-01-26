@@ -15,7 +15,6 @@ screen_width, screen_height = pag.size()
 def fingers(lm):
     finger_tips = []
     tip_ids = [4, 8, 12, 16, 20]
-    print(" ")
 
     # Thumbs
     if len(lm) != 0:
