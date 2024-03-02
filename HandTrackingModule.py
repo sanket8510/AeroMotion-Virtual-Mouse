@@ -45,3 +45,5 @@ class HandDetector:
 
         return lm_list
 
+
+
