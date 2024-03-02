@@ -103,7 +103,7 @@ print(len(shapeLay))
 
 shape = shapeLay[0]
 
-buttonimage_path: str = "C:\\Users\\HANA\\PycharmProjects\\AirPainter\\Buttons\\first.jpg"
+buttonimage_path: str = "Buttons\\first.jpg"
 buttonimage = cv2.imread(buttonimage_path)
 
 # ############################################################################3
