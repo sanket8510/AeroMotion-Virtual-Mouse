@@ -1,36 +1,15 @@
 import pyautogui as pag
-from HandTrackingModule import HandDetector
+from HandTrackingModule import HandDetector, fingers
 import time
 import cv2
-import numpy as np
+# import numpy as np
 
 previous_time = 0
 current_time = 0
 cap = cv2.VideoCapture(0)
-detector = HandDetector()
+detector = HandDetector(max_hands=1, detection_confidence=0.85)
 pag.FAILSAFE = False
 screen_width, screen_height = pag.size()
-
-
-def fingers(lm):
-    finger_tips = []
-    tip_ids = [4, 8, 12, 16, 20]
-
-    # Thumbs
-    if len(lm) != 0:
-        if lm[tip_ids[0]][1] < lm[tip_ids[0] - 1][1]:
-            finger_tips.append(1)
-        else:
-            finger_tips.append(0)
-
-        # Other fingers
-        for id_tip in range(1, 5):
-            if lm[tip_ids[id_tip]][2] < lm[tip_ids[id_tip] - 2][2]:
-                finger_tips.append(1)
-            else:
-                finger_tips.append(0)
-
-    return finger_tips
 
 
 while cap.isOpened():
@@ -46,19 +25,24 @@ while cap.isOpened():
 
     if len(landmarks_list) != 0:
 
-        index_tip_x, index_tip_y = landmarks_list[8][1:]
+        is_left_thumb_open = (landmarks_list[4][1] > landmarks_list[3][1] > landmarks_list[2][1] >
+                              landmarks_list[1][1] and landmarks_list[8][1] < landmarks_list[4][1])
+
+        # print(landmarks_list)
+        index_tip_x, index_tip_y = landmarks_list[8][1], landmarks_list[8][2]
         index_tip_x = index_tip_x * 5
         index_tip_y = index_tip_y * 4
-
+        cv2.circle(img, (index_tip_x, index_tip_y), 5, (255, 255, 255), 10)
         finger = fingers(landmarks_list)
 
         if all(finger):
             pag.mouseUp()
 
-        elif finger[1]:
+        elif finger[1] and finger[3] == 0 and finger[4] == 0:
             pag.moveTo(index_tip_x, index_tip_y)
 
-            if finger[0] and not finger[2]:
+            if finger[0] and finger[2] == 0:
+                print(finger[0])
                 pag.leftClick(index_tip_x, index_tip_y)
                 time.sleep(0.2)
                 print("Left")

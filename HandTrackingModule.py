@@ -1,12 +1,32 @@
-import time
+# import time
 import mediapipe as mp
 import cv2
+
+
+def fingers(lm):
+    finger_tips = []
+    tip_ids = [4, 8, 12, 16, 20]
+
+    # Thumbs
+    if len(lm) != 0:
+        if lm[tip_ids[0]][1] < lm[tip_ids[0] - 1][1]:
+            finger_tips.append(1)
+        else:
+            finger_tips.append(0)
+
+        # Other fingers
+        for id_tip in range(1, 5):
+            if lm[tip_ids[id_tip]][2] < lm[tip_ids[id_tip] - 2][2]:
+                finger_tips.append(1)
+            else:
+                finger_tips.append(0)
+
+    return finger_tips
 
 
 class HandDetector:
 
     def __init__(self, mode=False, max_hands=2, model_complexity=1, detection_confidence=0.8, track_confidence=0.5):
-
         self.mode = mode
         self.max_hands = max_hands
         self.model_complexity = model_complexity
@@ -34,14 +54,32 @@ class HandDetector:
         lm_list = []
 
         if self.results.multi_hand_landmarks:
-            for h in self.results.multi_hand_landmarks:
+
+            for h, handedness in zip(self.results.multi_hand_landmarks, self.results.multi_handedness):
+
                 for id_lm, hand_lm in enumerate(h.landmark):
+
                     height, width, _ = img.shape
                     cx, cy = int(width * hand_lm.x), int(height * hand_lm.y)
-                    lm_list.append([id_lm, cx, cy])
 
+                    lm_list.append([id_lm, cx, cy, handedness.classification[0].label])
                     if draw:
                         cv2.circle(img, (cx, cy), 3, (255, 255, 0), 3)
 
         return lm_list
 
+    # def is_hand_within_rect(self, img, top_left, bottom_right):
+    #
+    #     hand_info = ''
+    #
+    #     if self.results.multi_hand_landmarks:
+    #
+    #         for h, handedness in zip(self.results.multi_hand_landmarks, self.results.multi_handedness):
+    #
+    #             for id_lm, hand_lm in enumerate(h.landmark):
+    #                 height, width, _ = img.shape
+    #                 cx, cy = int(width * hand_lm.x), int(height * hand_lm.y)
+    #
+    #                 if top_left[0] < cx < bottom_right[0] and top_left[1] < cy < bottom_right[1]:
+    #                     hand_info = handedness.classification[0].label
+    #                     return hand_info
