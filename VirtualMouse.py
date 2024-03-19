@@ -25,9 +25,6 @@ while cap.isOpened():
 
     if len(landmarks_list) != 0:
 
-        is_left_thumb_open = (landmarks_list[4][1] > landmarks_list[3][1] > landmarks_list[2][1] >
-                              landmarks_list[1][1] and landmarks_list[8][1] < landmarks_list[4][1])
-
         # print(landmarks_list)
         index_tip_x, index_tip_y = landmarks_list[8][1], landmarks_list[8][2]
         index_tip_x = index_tip_x * 5
@@ -38,24 +35,20 @@ while cap.isOpened():
         if all(finger):
             pag.mouseUp()
 
-        elif finger[1] and finger[3] == 0 and finger[4] == 0:
+        elif finger[1]:
             pag.moveTo(index_tip_x, index_tip_y)
 
             if finger[0] and finger[2] == 0:
-                print(finger[0])
                 pag.leftClick(index_tip_x, index_tip_y)
                 time.sleep(0.2)
-                print("Left")
 
             if finger[2] and not finger[0]:
                 pag.rightClick(index_tip_x, index_tip_y)
                 time.sleep(0.2)
-                print("Right")
 
             if finger[4]:
                 pag.doubleClick(index_tip_x, index_tip_y)
                 time.sleep(0.2)
-                print("Double")
 
         elif not any(finger):
             pag.mouseDown()

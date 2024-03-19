@@ -9,7 +9,9 @@ def fingers(lm):
 
     # Thumbs
     if len(lm) != 0:
-        if lm[tip_ids[0]][1] < lm[tip_ids[0] - 1][1]:
+        if lm[tip_ids[0]][1] < lm[tip_ids[0] - 1][1] and lm[0][-1] == 'Right':
+            finger_tips.append(1)
+        elif lm[tip_ids[0]][1] > lm[tip_ids[0] - 1][1] and lm[0][-1] == 'Left':
             finger_tips.append(1)
         else:
             finger_tips.append(0)
@@ -68,18 +70,3 @@ class HandDetector:
 
         return lm_list
 
-    # def is_hand_within_rect(self, img, top_left, bottom_right):
-    #
-    #     hand_info = ''
-    #
-    #     if self.results.multi_hand_landmarks:
-    #
-    #         for h, handedness in zip(self.results.multi_hand_landmarks, self.results.multi_handedness):
-    #
-    #             for id_lm, hand_lm in enumerate(h.landmark):
-    #                 height, width, _ = img.shape
-    #                 cx, cy = int(width * hand_lm.x), int(height * hand_lm.y)
-    #
-    #                 if top_left[0] < cx < bottom_right[0] and top_left[1] < cy < bottom_right[1]:
-    #                     hand_info = handedness.classification[0].label
-    #                     return hand_info
