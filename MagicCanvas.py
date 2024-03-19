@@ -34,8 +34,8 @@ def take_user_input():
 
     text_root_width = 400
     text_root_height = 230
-    text_root_x = int((screen_width / 1.7) - (text_root_width / 2))
-    text_root_y = int((screen_height / 1.8) - (text_root_height / 2))
+    text_root_x = int((screen_width / 2) - (text_root_width / 2))
+    text_root_y = int((screen_height / 2) - (text_root_height / 2))
 
     text_root.geometry(f'{text_root_width}x{text_root_height}+{text_root_x}+{text_root_y}')
 
@@ -143,6 +143,7 @@ def clear_canvas():
 def calculate_distance(a1, b1, a2, b2):
     return int(np.sqrt((a2 - a1) ** 2 + (b2 - b1) ** 2))
 
+
 # Create black canvas
 screen_width, screen_height = pag.size()
 img_canvas = np.zeros((screen_height, screen_width, 3), np.uint8)
@@ -153,7 +154,7 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, screen_width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
 
 # Load header image
-folderPath = "Header"
+folderPath = "assets/Header"
 mylist = os.listdir(folderPath)
 overLay = []
 
@@ -165,7 +166,7 @@ for imPath in mylist:
 header_colors = overLay[0]
 
 # Load Thickness image
-thickness_path = "SideBar"
+thickness_path = "assets/SideBar"
 mylist3 = os.listdir(thickness_path)
 
 Thick = []
@@ -176,7 +177,7 @@ for imPath3 in mylist3:
 side_thickness = Thick[0]
 
 # Eraser and TextBox
-eraser_path = "Eraser_Thickness"
+eraser_path = "assets/Eraser_Thickness"
 mylist4 = os.listdir(eraser_path)
 EraserLay = []
 
@@ -188,7 +189,7 @@ side_eraser = EraserLay[0]
 
 # Shapes
 
-ShapesPath = "Shapes"
+ShapesPath = "assets/Shapes"
 mylist2 = os.listdir(ShapesPath)
 
 Shapes = []
@@ -200,7 +201,7 @@ header_shapes = Shapes[0]
 
 # Load Buttons
 
-ButtonsPath = "Buttons"
+ButtonsPath = "assets/Buttons"
 mylist3 = os.listdir(ButtonsPath)
 
 Buttons_lay = []
@@ -510,7 +511,7 @@ while cap.isOpened():
     # Displaying Canvas
     img_overlay = cv2.addWeighted(img_canvas, 0.8, img_resized, 0.7, 0)
     cv2.imshow("Canvas", img_canvas)
-    cv2.imshow("Image", img_overlay)
+    cv2.imshow("Magic Canvas", img_overlay)
 
     if cv2.waitKey(1) == 27:
         break

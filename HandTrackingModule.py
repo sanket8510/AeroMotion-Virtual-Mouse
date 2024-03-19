@@ -69,4 +69,3 @@ class HandDetector:
                         cv2.circle(img, (cx, cy), 3, (255, 255, 0), 3)
 
         return lm_list
-

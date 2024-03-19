@@ -326,7 +326,7 @@ while cap.isOpened():
 
     # cv2.circle(img_resized, (right_rect_x, 0), 3, (255, 255, 0), 6)
 
-    cv2.imshow("Hand Gesture Recognition", img_resized)
+    cv2.imshow("Gesture Sync", img_resized)
     # cv2.imshow("Hand Gesture Detection", miniplayer_size)
 
     if cv2.waitKey(1) & 0xFF == 27:
