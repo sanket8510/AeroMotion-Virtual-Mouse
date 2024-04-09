@@ -3,6 +3,7 @@ from tkinter import *
 from customtkinter import *
 import subprocess
 from random import choice
+import pygame
 
 
 main_window = 0
@@ -163,7 +164,7 @@ def left_swipe_button_left(event):
 
 def left_swipe_button_pressed(event):
     global current_page, right_swipe_button
-    # main_canvas.itemconfig(module_name, text='MAGIC CANVAS')
+
     if current_page == 2:
         current_page = 1
 
@@ -251,11 +252,7 @@ def right_swipe_button_pressed(event):
         main_canvas.itemconfig(module_image, image=ac_image)
 
         main_canvas.itemconfig(module_name, text='MAGIC CANVAS')
-        main_canvas.itemconfig(
-            tagline,
-            text="Unleash your artistic flow using air painting, where gestures meet imagination. "
-                 "It's control redefined."
-        )
+        main_canvas.itemconfig(tagline, text=ac_tagline)
 
         main_canvas.itemconfig(start_button, image=ac_start_button_image)
         main_canvas.itemconfig(stop_button, image=ac_stop_button_image)
@@ -482,13 +479,12 @@ def main_screen():
     vm_tagline = ("Step into the future by controlling the cursor with a wave of your fingers. "
                   "It's beyond click and touch, it's AeroMotion.")
     ac_tagline = ("Unleash your artistic flow using air painting, where gestures meet imagination. "
-                  "It's control redefined.")
+                  "It's control redefined, it's AeroMotion.")
     hg_tagline = ("Elevate your experience with magical control over the gap between you and your computer. It's "
                   "all in your hands now.")
     tagline = main_canvas.create_text(
         tagline_x, tagline_y,
-        text="Step into the future by controlling the cursor with a wave of your fingers. "
-             "It's beyond click and touch, it's AeroMotion.",
+        text=vm_tagline,
         font=("Montserrat", 17),
         fill="#0E0E65",
         anchor='center',
@@ -622,6 +618,10 @@ logo_x = (screen_width/3.4)
 logo_y = (screen_height/2.1)
 splash_canvas.create_image(logo_x, logo_y, image=logo_image, anchor='center')
 
-splash.after(5000, main_screen)
+pygame.mixer.init()
+pygame.mixer.music.load("assets/splash-screen/splash-screen-sound.mp3")
+pygame.mixer.music.play()
+
+splash.after(4000, main_screen)
 
 mainloop()
