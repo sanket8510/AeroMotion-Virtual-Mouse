@@ -9,6 +9,7 @@ import pygetwindow as pgw
 
 
 def is_browser_open():
+
     for player in media_players:
         if window is not None:
             if player in window.title:
@@ -16,6 +17,7 @@ def is_browser_open():
 
     for browser in browsers:
         if window is not None:
+            print(window.title)
             if browser in window.title:
                 return True
 
@@ -157,7 +159,7 @@ media_players = ["Media Player", "VLC media player", "YouTube", "Plex", "RealPla
                  "ACG Player", "Winamp", "PowerDVD", "iTunes", "Spotify"]
 
 # Browsers
-browsers = ["- Google Chrome", "- Brave", "- Opera", "- Microsoft Edge", "- Mozilla Firefox"]
+browsers = ["- Brave", "- Google Chrome", "Opera", "- Microsoft​ Edge", "— Mozilla Firefox"]
 
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, screen_width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
