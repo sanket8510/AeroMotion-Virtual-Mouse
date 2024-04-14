@@ -488,7 +488,7 @@ def main_screen():
     tagline = main_canvas.create_text(
         tagline_x, tagline_y,
         text=vm_tagline,
-        font=(" ", tagline_size),
+        font=("", tagline_size),
         fill="#0E0E65",
         anchor='nw',
         width=tagline_width
