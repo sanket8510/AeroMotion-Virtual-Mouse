@@ -9,6 +9,7 @@ import pygetwindow as pgw
 
 
 def is_browser_open():
+
     for player in media_players:
         if window is not None:
             if player in window.title:
@@ -16,6 +17,7 @@ def is_browser_open():
 
     for browser in browsers:
         if window is not None:
+            print(window.title)
             if browser in window.title:
                 return True
 
@@ -157,7 +159,7 @@ media_players = ["Media Player", "VLC media player", "YouTube", "Plex", "RealPla
                  "ACG Player", "Winamp", "PowerDVD", "iTunes", "Spotify"]
 
 # Browsers
-browsers = ["- Google Chrome", "- Brave", "- Opera", "- Microsoft Edge", "- Mozilla Firefox"]
+browsers = ["- Brave", "- Google Chrome", "Opera", "- Microsoft​ Edge", "— Mozilla Firefox"]
 
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, screen_width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
@@ -166,6 +168,7 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
 # print(screen_width_division)
 
 pag.FAILSAFE = False
+cv2.namedWindow("Gesture Sync")
 
 img = None
 
@@ -327,9 +330,9 @@ while cap.isOpened():
     # cv2.circle(img_resized, (right_rect_x, 0), 3, (255, 255, 0), 6)
 
     cv2.imshow("Gesture Sync", img_resized)
-    # cv2.imshow("Hand Gesture Detection", miniplayer_size)
+    # cv2.imshow("Gesture Sync", miniplayer_size)
 
-    if cv2.waitKey(1) & 0xFF == 27:
+    if cv2.waitKey(1) & 0xFF == 27 or cv2.getWindowProperty("Gesture Sync", cv2.WND_PROP_VISIBLE) < 1:
         break
 
 cap.release()

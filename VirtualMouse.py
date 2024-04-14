@@ -10,11 +10,18 @@ cap = cv2.VideoCapture(0)
 detector = HandDetector(max_hands=1, detection_confidence=0.85)
 pag.FAILSAFE = False
 screen_width, screen_height = pag.size()
+cv2.namedWindow("Virtual Mouse")
 
+img = None
 
 while cap.isOpened():
 
-    success, img = cap.read()
+    try:
+        success, img = cap.read()
+        if not success:
+            raise Exception("Error: Unable to read the Video")
+    except Exception as e:
+        print(f"Error: {e}")
 
     img_flip = cv2.flip(img, 1)
     img = detector.find_hands(img_flip)
@@ -62,7 +69,7 @@ while cap.isOpened():
 
     cv2.imshow("Virtual Mouse", img)
 
-    if cv2.waitKey(1) & 0xFF == 27:
+    if cv2.waitKey(1) & 0xFF == 27 or cv2.getWindowProperty("Virtual Mouse", cv2.WND_PROP_VISIBLE) < 1:
         break
 
 cap.release()
