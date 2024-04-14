@@ -233,6 +233,7 @@ global first_x, first_y, next_x, next_y, center_x, center_y, first_rect_x, first
     next_rect_y, global_im
 
 userText = []
+cv2.namedWindow("Magic Canvas")
 
 while cap.isOpened():
     try:
@@ -513,7 +514,7 @@ while cap.isOpened():
     cv2.imshow("Canvas", img_canvas)
     cv2.imshow("Magic Canvas", img_overlay)
 
-    if cv2.waitKey(1) == 27:
+    if cv2.waitKey(1) & 0xFF == 27 or cv2.getWindowProperty("Magic Canvas", cv2.WND_PROP_VISIBLE) < 1:
         break
 
 cap.release()
