@@ -1,0 +1,9 @@
+pygame~=2.5.2
+PyAutoGUI~=0.9.54
+customtkinter~=5.2.2
+pillow~=10.2.0
+opencv-python~=4.9.0.80
+numpy~=1.26.4
+screen_brightness_control~=0.22.2
+PyGetWindow~=0.0.9
+mediapipe~=0.10.10
