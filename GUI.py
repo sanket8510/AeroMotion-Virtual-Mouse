@@ -5,6 +5,8 @@ from random import choice
 import pygame
 import pyautogui as pag
 from PIL import Image, ImageTk
+from datetime import datetime
+
 
 main_window = 0
 
@@ -18,6 +20,25 @@ air_canvas = None
 air_canvas_running = 0
 hand_gesture = None
 hand_gesture_running = 0
+
+
+greeting_image = 0
+
+ac_morning_greeting_image = 0
+ac_noon_greeting_image = 0
+ac_evening_greeting_image = 0
+ac_night_greeting_image = 0
+
+hg_morning_greeting_image = 0
+hg_noon_greeting_image = 0
+hg_evening_greeting_image = 0
+hg_night_greeting_image = 0
+
+vm_morning_greeting_image = 0
+vm_noon_greeting_image = 0
+vm_evening_greeting_image = 0
+vm_night_greeting_image = 0
+
 
 vm_module_name = ''
 ac_module_name = ''
@@ -87,6 +108,14 @@ back_button_y = 0
 back_button_image = 0
 back_button = 0
 move_back_count = 0
+
+
+# greeting function
+def update_greeting():
+    current_time_str = datetime.now().strftime("%I:%M %p")
+    current_time_int = datetime.now().strptime(current_time_str, "%I:%M %p")
+    main_window.after(60000, update_greeting)
+    return current_time_int
 
 
 # start button functions
@@ -165,6 +194,20 @@ def left_swipe_button_pressed(event):
     if current_page == 2:
         current_page = 1
 
+        current_time = update_greeting()
+
+        if (current_time.hour >= 0) and (current_time.hour < 12):
+            main_canvas.itemconfig(greeting_image, image=vm_morning_greeting_image)
+
+        elif (current_time.hour >= 12) and (current_time.hour < 17):
+            main_canvas.itemconfig(greeting_image, image=vm_noon_greeting_image)
+
+        elif (current_time.hour >= 17) and (current_time.hour < 21):
+            main_canvas.itemconfig(greeting_image, image=vm_evening_greeting_image)
+
+        elif (current_time.hour >= 21) or (current_time.hour < 0):
+            main_canvas.itemconfig(greeting_image, image=vm_night_greeting_image)
+
         main_canvas.itemconfig(module_image, image=vm_image)
 
         main_canvas.itemconfigure(left_swipe_button, state=HIDDEN)
@@ -190,6 +233,20 @@ def left_swipe_button_pressed(event):
         main_canvas.tag_bind(right_swipe_button, "<Leave>", right_swipe_button_left)
         main_canvas.tag_bind(right_swipe_button, "<ButtonPress-1>", right_swipe_button_pressed)
         move_right_image()
+
+        current_time = update_greeting()
+
+        if (current_time.hour >= 0) and (current_time.hour < 12):
+            main_canvas.itemconfig(greeting_image, image=ac_morning_greeting_image)
+
+        elif (current_time.hour >= 12) and (current_time.hour < 17):
+            main_canvas.itemconfig(greeting_image, image=ac_noon_greeting_image)
+
+        elif (current_time.hour >= 17) and (current_time.hour < 21):
+            main_canvas.itemconfig(greeting_image, image=ac_evening_greeting_image)
+
+        elif (current_time.hour >= 21) or (current_time.hour < 0):
+            main_canvas.itemconfig(greeting_image, image=ac_night_greeting_image)
 
         main_canvas.itemconfig(module_image, image=ac_image)
 
@@ -246,6 +303,20 @@ def right_swipe_button_pressed(event):
         # animation
         move_left_image()
 
+        current_time = update_greeting()
+
+        if (current_time.hour >= 0) and (current_time.hour < 12):
+            main_canvas.itemconfig(greeting_image, image=ac_morning_greeting_image)
+
+        elif (current_time.hour >= 12) and (current_time.hour < 17):
+            main_canvas.itemconfig(greeting_image, image=ac_noon_greeting_image)
+
+        elif (current_time.hour >= 17) and (current_time.hour < 21):
+            main_canvas.itemconfig(greeting_image, image=ac_evening_greeting_image)
+
+        elif (current_time.hour >= 21) or (current_time.hour < 0):
+            main_canvas.itemconfig(greeting_image, image=ac_night_greeting_image)
+
         main_canvas.itemconfig(module_image, image=ac_image)
 
         main_canvas.itemconfig(module_name, text=ac_module_name)
@@ -260,6 +331,20 @@ def right_swipe_button_pressed(event):
         current_page = 3
 
         main_canvas.itemconfigure(right_swipe_button, state=HIDDEN)
+
+        current_time = update_greeting()
+
+        if (current_time.hour >= 0) and (current_time.hour < 12):
+            main_canvas.itemconfig(greeting_image, image=hg_morning_greeting_image)
+
+        elif (current_time.hour >= 12) and (current_time.hour < 17):
+            main_canvas.itemconfig(greeting_image, image=hg_noon_greeting_image)
+
+        elif (current_time.hour >= 17) and (current_time.hour < 21):
+            main_canvas.itemconfig(greeting_image, image=hg_evening_greeting_image)
+
+        elif (current_time.hour >= 21) or (current_time.hour < 0):
+            main_canvas.itemconfig(greeting_image, image=hg_night_greeting_image)
 
         main_canvas.itemconfig(module_image, image=hg_image)
 
@@ -403,6 +488,10 @@ def main_screen():
     global hg_module_name, vm_help_button_image, ac_help_button_image, hg_help_button_image, vm_hover_help_image
     global ac_hover_help_image, hg_hover_help_image, help_button, help_image_x, help_image_y, help_image
     global vm_help_image, ac_help_image, hg_help_image, back_button_x, back_button_y, back_button, back_button_image
+    global greeting_image, ac_morning_greeting_image, ac_noon_greeting_image, ac_evening_greeting_image
+    global ac_night_greeting_image, hg_morning_greeting_image, hg_noon_greeting_image, hg_evening_greeting_image
+    global hg_night_greeting_image, vm_morning_greeting_image, vm_noon_greeting_image, vm_evening_greeting_image
+    global vm_night_greeting_image
 
     splash.destroy()
 
@@ -434,6 +523,47 @@ def main_screen():
     main_canvas.create_image(0, 0, image=background_image, anchor='nw')
 
     # Main screen components
+
+    # greeting
+    vm_morning_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-morning-greeting.png')
+    vm_noon_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-noon-greeting.png')
+    vm_evening_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-evening-greeting.png')
+    vm_night_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-night-greeting.png')
+
+    greeting_image_x = screen_width / 2.17
+    greeting_image_y = screen_height / 3.9
+
+    greeting_image = main_canvas.create_image(
+        greeting_image_x, greeting_image_y,
+        image=vm_morning_greeting_image,
+        anchor='nw'
+    )
+
+    current_time = update_greeting()
+
+    if (current_time.hour >= 0) and (current_time.hour < 12):
+        main_canvas.itemconfig(greeting_image, image=vm_morning_greeting_image)
+
+    elif (current_time.hour >= 12) and (current_time.hour < 17):
+        main_canvas.itemconfig(greeting_image, image=vm_noon_greeting_image)
+
+    elif (current_time.hour >= 17) and (current_time.hour < 21):
+        main_canvas.itemconfig(greeting_image, image=vm_evening_greeting_image)
+
+    elif (current_time.hour >= 21) or (current_time.hour < 0):
+        main_canvas.itemconfig(greeting_image, image=vm_night_greeting_image)
+
+    # ac greetings
+    ac_morning_greeting_image = PhotoImage(file='assets/air-canvas/ac-morning-greeting.png')
+    ac_noon_greeting_image = PhotoImage(file='assets/air-canvas/ac-noon-greeting.png')
+    ac_evening_greeting_image = PhotoImage(file='assets/air-canvas/ac-evening-greeting.png')
+    ac_night_greeting_image = PhotoImage(file='assets/air-canvas/ac-night-greeting.png')
+
+    # hg greetings
+    hg_morning_greeting_image = PhotoImage(file='assets/hand-gesture/hg-morning-greeting.png')
+    hg_noon_greeting_image = PhotoImage(file='assets/hand-gesture/hg-noon-greeting.png')
+    hg_evening_greeting_image = PhotoImage(file='assets/hand-gesture/hg-evening-greeting.png')
+    hg_night_greeting_image = PhotoImage(file='assets/hand-gesture/hg-night-greeting.png')
 
     # vm image
     vm_image_1 = PhotoImage(file='assets/virtual-mouse/vm-image-1.png')
@@ -632,6 +762,7 @@ logo_x = (screen_width / 3.4)
 logo_y = (screen_height / 2.1)
 splash_canvas.create_image(logo_x, logo_y, image=logo_image, anchor='center')
 
+# Splash screen music
 pygame.mixer.init()
 pygame.mixer.music.load("assets/splash-screen/splash-screen-sound.mp3")
 pygame.mixer.music.play()
