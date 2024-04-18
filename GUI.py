@@ -6,6 +6,20 @@ import pygame
 import pyautogui as pag
 from PIL import Image, ImageTk
 from datetime import datetime
+import os
+import sys
+
+
+# https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 main_window = 0
@@ -205,15 +219,15 @@ def left_swipe_button_pressed(event):
         elif (current_time.hour >= 17) and (current_time.hour < 21):
             main_canvas.itemconfig(greeting_image, image=vm_evening_greeting_image)
 
-        elif (current_time.hour >= 21) or (current_time.hour < 0):
+        elif (current_time.hour >= 21) or (current_time.hour < 4):
             main_canvas.itemconfig(greeting_image, image=vm_night_greeting_image)
 
         main_canvas.itemconfig(module_image, image=vm_image)
 
         main_canvas.itemconfigure(left_swipe_button, state=HIDDEN)
 
-        main_canvas.itemconfig(module_name, text=vm_module_name)
-        main_canvas.itemconfig(tagline, text=vm_tagline)
+        main_canvas.itemconfig(module_name, image=vm_module_name)
+        main_canvas.itemconfig(tagline, image=vm_tagline)
 
         main_canvas.itemconfig(start_button, image=vm_start_button_image)
         main_canvas.itemconfig(stop_button, image=vm_stop_button_image)
@@ -245,13 +259,13 @@ def left_swipe_button_pressed(event):
         elif (current_time.hour >= 17) and (current_time.hour < 21):
             main_canvas.itemconfig(greeting_image, image=ac_evening_greeting_image)
 
-        elif (current_time.hour >= 21) or (current_time.hour < 0):
+        elif (current_time.hour >= 21) or (current_time.hour < 4):
             main_canvas.itemconfig(greeting_image, image=ac_night_greeting_image)
 
         main_canvas.itemconfig(module_image, image=ac_image)
 
-        main_canvas.itemconfig(module_name, text=ac_module_name)
-        main_canvas.itemconfig(tagline, text=ac_tagline)
+        main_canvas.itemconfig(module_name, image=ac_module_name)
+        main_canvas.itemconfig(tagline, image=ac_tagline)
 
         main_canvas.itemconfig(start_button, image=ac_start_button_image)
         main_canvas.itemconfig(stop_button, image=ac_stop_button_image)
@@ -314,13 +328,13 @@ def right_swipe_button_pressed(event):
         elif (current_time.hour >= 17) and (current_time.hour < 21):
             main_canvas.itemconfig(greeting_image, image=ac_evening_greeting_image)
 
-        elif (current_time.hour >= 21) or (current_time.hour < 0):
+        elif (current_time.hour >= 21) or (current_time.hour < 4):
             main_canvas.itemconfig(greeting_image, image=ac_night_greeting_image)
 
         main_canvas.itemconfig(module_image, image=ac_image)
 
-        main_canvas.itemconfig(module_name, text=ac_module_name)
-        main_canvas.itemconfig(tagline, text=ac_tagline)
+        main_canvas.itemconfig(module_name, image=ac_module_name)
+        main_canvas.itemconfig(tagline, image=ac_tagline)
 
         main_canvas.itemconfig(start_button, image=ac_start_button_image)
         main_canvas.itemconfig(stop_button, image=ac_stop_button_image)
@@ -343,13 +357,13 @@ def right_swipe_button_pressed(event):
         elif (current_time.hour >= 17) and (current_time.hour < 21):
             main_canvas.itemconfig(greeting_image, image=hg_evening_greeting_image)
 
-        elif (current_time.hour >= 21) or (current_time.hour < 0):
+        elif (current_time.hour >= 21) or (current_time.hour < 4):
             main_canvas.itemconfig(greeting_image, image=hg_night_greeting_image)
 
         main_canvas.itemconfig(module_image, image=hg_image)
 
-        main_canvas.itemconfig(module_name, text=hg_module_name)
-        main_canvas.itemconfig(tagline, text=hg_tagline)
+        main_canvas.itemconfig(module_name, image=hg_module_name)
+        main_canvas.itemconfig(tagline, image=hg_tagline)
 
         main_canvas.itemconfig(start_button, image=hg_start_button_image)
         main_canvas.itemconfig(stop_button, image=hg_stop_button_image)
@@ -498,7 +512,7 @@ def main_screen():
     main_window = CTk()
 
     main_window.title('AeroMotion')
-    main_window.iconbitmap('assets/main-screen-commons/logo-24.ico')
+    main_window.iconbitmap(resource_path('assets/main-screen-commons/logo-24.ico'))
 
     main_window.resizable(False, True)
 
@@ -517,7 +531,7 @@ def main_screen():
     main_window._state_before_windows_set_titlebar_color = 'zoomed'
 
     # background image
-    background_image = Image.open("assets/main-screen-commons/main-white.png")
+    background_image = Image.open(resource_path("assets/main-screen-commons/main-white.png"))
     background_image = background_image.resize((screen_width, screen_height), Image.NEAREST)
     background_image = ImageTk.PhotoImage(background_image)
     main_canvas.create_image(0, 0, image=background_image, anchor='nw')
@@ -525,10 +539,10 @@ def main_screen():
     # Main screen components
 
     # greeting
-    vm_morning_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-morning-greeting.png')
-    vm_noon_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-noon-greeting.png')
-    vm_evening_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-evening-greeting.png')
-    vm_night_greeting_image = PhotoImage(file='assets/virtual-mouse/vm-night-greeting.png')
+    vm_morning_greeting_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-morning-greeting.png'))
+    vm_noon_greeting_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-noon-greeting.png'))
+    vm_evening_greeting_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-evening-greeting.png'))
+    vm_night_greeting_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-night-greeting.png'))
 
     greeting_image_x = screen_width / 2.17
     greeting_image_y = screen_height / 3.9
@@ -541,7 +555,7 @@ def main_screen():
 
     current_time = update_greeting()
 
-    if (current_time.hour >= 0) and (current_time.hour < 12):
+    if (current_time.hour >= 4) and (current_time.hour < 12):
         main_canvas.itemconfig(greeting_image, image=vm_morning_greeting_image)
 
     elif (current_time.hour >= 12) and (current_time.hour < 17):
@@ -550,93 +564,86 @@ def main_screen():
     elif (current_time.hour >= 17) and (current_time.hour < 21):
         main_canvas.itemconfig(greeting_image, image=vm_evening_greeting_image)
 
-    elif (current_time.hour >= 21) or (current_time.hour < 0):
+    else:
         main_canvas.itemconfig(greeting_image, image=vm_night_greeting_image)
 
     # ac greetings
-    ac_morning_greeting_image = PhotoImage(file='assets/air-canvas/ac-morning-greeting.png')
-    ac_noon_greeting_image = PhotoImage(file='assets/air-canvas/ac-noon-greeting.png')
-    ac_evening_greeting_image = PhotoImage(file='assets/air-canvas/ac-evening-greeting.png')
-    ac_night_greeting_image = PhotoImage(file='assets/air-canvas/ac-night-greeting.png')
+    ac_morning_greeting_image = PhotoImage(file=resource_path('assets/air-canvas/ac-morning-greeting.png'))
+    ac_noon_greeting_image = PhotoImage(file=resource_path('assets/air-canvas/ac-noon-greeting.png'))
+    ac_evening_greeting_image = PhotoImage(file=resource_path('assets/air-canvas/ac-evening-greeting.png'))
+    ac_night_greeting_image = PhotoImage(file=resource_path('assets/air-canvas/ac-night-greeting.png'))
 
     # hg greetings
-    hg_morning_greeting_image = PhotoImage(file='assets/hand-gesture/hg-morning-greeting.png')
-    hg_noon_greeting_image = PhotoImage(file='assets/hand-gesture/hg-noon-greeting.png')
-    hg_evening_greeting_image = PhotoImage(file='assets/hand-gesture/hg-evening-greeting.png')
-    hg_night_greeting_image = PhotoImage(file='assets/hand-gesture/hg-night-greeting.png')
+    hg_morning_greeting_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-morning-greeting.png'))
+    hg_noon_greeting_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-noon-greeting.png'))
+    hg_evening_greeting_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-evening-greeting.png'))
+    hg_night_greeting_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-night-greeting.png'))
 
     # vm image
-    vm_image_1 = PhotoImage(file='assets/virtual-mouse/vm-image-1.png')
+    vm_image_1 = PhotoImage(file=resource_path('assets/virtual-mouse/vm-image-1.png'))
 
     vm_images = [vm_image_1]
     vm_image = choice(vm_images)
 
-    image_x = screen_width / 3.5
-    image_y = screen_height / 2.44
+    image_x = screen_width / 2.38
+    image_y = screen_height / 1.528
     module_image = main_canvas.create_image(
         image_x, image_y,
         image=vm_image,
-        anchor='center'
+        anchor='se'
     )
 
     # ac image
-    ac_image_1 = PhotoImage(file='assets/air-canvas/ac_image_1.png')
+    ac_image_1 = PhotoImage(file=resource_path('assets/air-canvas/ac_image_1.png'))
     ac_images = [ac_image_1]
     ac_image = choice(ac_images)
 
     # hg image
-    hg_image_1 = PhotoImage(file='assets/hand-gesture/hg_image_1.png')
+    hg_image_1 = PhotoImage(file=resource_path('assets/hand-gesture/hg_image_1.png'))
     hg_images = [hg_image_1]
     hg_image = choice(hg_images)
 
     # heading/module name
     module_name_x = screen_width / 2.17
-    module_name_y = screen_height / 3.48
-    module_name_size = int(screen_width / 35.3)
-    vm_module_name = "VIRTUAL MOUSE"
-    ac_module_name = "MAGIC CANVAS"
-    hg_module_name = "GESTURES SYNC"
-    module_name = main_canvas.create_text(
+    module_name_y = screen_height / 3.1
+
+    vm_module_name = PhotoImage(file=resource_path('assets/virtual-mouse/vm-module-name.png'))
+    ac_module_name = PhotoImage(file=resource_path('assets/air-canvas/ac-module-name.png'))
+    hg_module_name = PhotoImage(file=resource_path('assets/hand-gesture/hg-module-name.png'))
+
+    module_name = main_canvas.create_image(
         module_name_x, module_name_y,
-        text=vm_module_name,
-        font=("Poppins ExtraBold", module_name_size),
-        fill="#0E0E65",
+        image=vm_module_name,
         anchor='nw'
     )
 
     # tagline
     tagline_x = screen_width / 2.17
     tagline_y = screen_height / 2.5
-    tagline_size = int(screen_width / 140)
-    tagline_width = int(screen_width / 2.4)
-    vm_tagline = ("Step into the future by controlling the cursor with a wave of your fingers. "
-                  "It's beyond click and touch, it's AeroMotion.")
-    ac_tagline = ("Unleash your artistic flow using air painting, where gestures meet imagination. "
-                  "It's control redefined, it's AeroMotion.")
-    hg_tagline = ("Elevate your experience with magical control over the gap between you and your computer. It's "
-                  "all in your hands now.")
-    tagline = main_canvas.create_text(
+
+    vm_tagline = PhotoImage(file=resource_path('assets/virtual-mouse/vm-tagline.png'))
+    ac_tagline = PhotoImage(file=resource_path('assets/air-canvas/ac-tagline.png'))
+    hg_tagline = PhotoImage(file=resource_path('assets/hand-gesture/hg-tagline.png'))
+
+    tagline = main_canvas.create_image(
         tagline_x, tagline_y,
-        text=vm_tagline,
-        font=("Montserrat", tagline_size),
-        fill="#0E0E65",
-        anchor='nw',
-        width=tagline_width
+        image=vm_tagline,
+        anchor='nw'
     )
 
     # start button
-    start_button_x = screen_width / 1.89
-    start_button_y = screen_height / 1.75
-    vm_start_button_image = PhotoImage(file='assets/virtual-mouse/vm-main-start-button.png')
-    vm_hover_start_image = PhotoImage(file="assets/virtual-mouse/vm-hover-start-button.png")
-    ac_start_button_image = PhotoImage(file='assets/air-canvas/ac-main-start-button.png')
-    ac_hover_start_image = PhotoImage(file='assets/air-canvas/ac-hover-start-button.png')
-    hg_start_button_image = PhotoImage(file='assets/hand-gesture/hg-main-start-button.png')
-    hg_hover_start_image = PhotoImage(file='assets/hand-gesture/hg-hover-start-button.png')
+    start_button_x = screen_width / 2.17
+    start_button_y = screen_height / 1.877
+    vm_start_button_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-main-start-button.png'))
+    vm_hover_start_image = PhotoImage(file=resource_path("assets/virtual-mouse/vm-hover-start-button.png"))
+    ac_start_button_image = PhotoImage(file=resource_path('assets/air-canvas/ac-main-start-button.png'))
+    ac_hover_start_image = PhotoImage(file=resource_path('assets/air-canvas/ac-hover-start-button.png'))
+    hg_start_button_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-main-start-button.png'))
+    hg_hover_start_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-hover-start-button.png'))
     start_button = main_canvas.create_image(
         start_button_x, start_button_y,
         image=vm_start_button_image,
-        anchor='center'
+        anchor='nw'
     )
     main_canvas.tag_bind(start_button, "<Enter>", start_button_entered)
     main_canvas.tag_bind(start_button, "<Leave>", start_button_left)
@@ -645,12 +652,12 @@ def main_screen():
     # stop button
     stop_button_x = screen_width / 1.275
     stop_button_y = screen_height / 1.75
-    vm_stop_button_image = PhotoImage(file='assets/virtual-mouse/vm-main-stop-button.png')
-    vm_hover_stop_image = PhotoImage(file="assets/virtual-mouse/vm-hover-stop-button.png")
-    ac_stop_button_image = PhotoImage(file='assets/air-canvas/ac-main-stop-button.png')
-    ac_hover_stop_image = PhotoImage(file="assets/air-canvas/ac-hover-stop-button.png")
-    hg_stop_button_image = PhotoImage(file='assets/hand-gesture/hg-main-stop-button.png')
-    hg_hover_stop_image = PhotoImage(file='assets/hand-gesture/hg-hover-stop-button.png')
+    vm_stop_button_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-main-stop-button.png'))
+    vm_hover_stop_image = PhotoImage(file=resource_path("assets/virtual-mouse/vm-hover-stop-button.png"))
+    ac_stop_button_image = PhotoImage(file=resource_path('assets/air-canvas/ac-main-stop-button.png'))
+    ac_hover_stop_image = PhotoImage(file=resource_path("assets/air-canvas/ac-hover-stop-button.png"))
+    hg_stop_button_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-main-stop-button.png'))
+    hg_hover_stop_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-hover-stop-button.png'))
     stop_button = main_canvas.create_image(
         stop_button_x, stop_button_y,
         image=vm_stop_button_image,
@@ -663,18 +670,18 @@ def main_screen():
     # left swipe button
     left_swipe_button_x = screen_width / 6.8
     left_swipe_button_y = screen_height / 4
-    left_swipe_button_image = PhotoImage(file='assets/main-screen-commons/main-left-swipe-button.png')
-    ac_hover_left_swipe_image = PhotoImage(file='assets/air-canvas/ac-hover-left-swipe-button.png')
-    hg_hover_left_swipe_image = PhotoImage(file='assets/hand-gesture/hg-hover-left-swipe-button.png')
+    left_swipe_button_image = PhotoImage(file=resource_path('assets/main-screen-commons/main-left-swipe-button.png'))
+    ac_hover_left_swipe_image = PhotoImage(file=resource_path('assets/air-canvas/ac-hover-left-swipe-button.png'))
+    hg_hover_left_swipe_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-hover-left-swipe-button.png'))
     left_swipe_button = 0
     move_left_count = 0
 
     # right swipe button
     right_swipe_button_x = screen_width / 1.181
     right_swipe_button_y = screen_height / 4
-    right_swipe_button_image = PhotoImage(file='assets/main-screen-commons/main-right-swipe-button.png')
-    vm_hover_right_swipe_image = PhotoImage(file="assets/virtual-mouse/vm-hover-right-swipe-button.png")
-    ac_hover_right_swipe_image = PhotoImage(file='assets/air-canvas/ac-hover-right-swipe-button.png')
+    right_swipe_button_image = PhotoImage(file=resource_path('assets/main-screen-commons/main-right-swipe-button.png'))
+    vm_hover_right_swipe_image = PhotoImage(file=resource_path("assets/virtual-mouse/vm-hover-right-swipe-button.png"))
+    ac_hover_right_swipe_image = PhotoImage(file=resource_path('assets/air-canvas/ac-hover-right-swipe-button.png'))
     right_swipe_button = main_canvas.create_image(
         right_swipe_button_x, right_swipe_button_y,
         image=right_swipe_button_image,
@@ -689,17 +696,17 @@ def main_screen():
 
     # help button
     help_button_x = screen_width / 3.45
-    help_button_y = screen_height / 1.375
-    vm_help_button_image = PhotoImage(file='assets/virtual-mouse/vm-help-button.png')
-    vm_hover_help_image = PhotoImage(file="assets/virtual-mouse/vm-help-hover-button.png")
-    ac_help_button_image = PhotoImage(file='assets/air-canvas/ac-help-button.png')
-    ac_hover_help_image = PhotoImage(file='assets/air-canvas/ac-help-hover-button.png')
-    hg_help_button_image = PhotoImage(file='assets/hand-gesture/hg-help-button.png')
-    hg_hover_help_image = PhotoImage(file='assets/hand-gesture/hg-help-hover-button.png')
+    help_button_y = screen_height / 1.45
+    vm_help_button_image = PhotoImage(file=resource_path('assets/virtual-mouse/vm-help-button.png'))
+    vm_hover_help_image = PhotoImage(file=resource_path("assets/virtual-mouse/vm-help-hover-button.png"))
+    ac_help_button_image = PhotoImage(file=resource_path('assets/air-canvas/ac-help-button.png'))
+    ac_hover_help_image = PhotoImage(file=resource_path('assets/air-canvas/ac-help-hover-button.png'))
+    hg_help_button_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-help-button.png'))
+    hg_hover_help_image = PhotoImage(file=resource_path('assets/hand-gesture/hg-help-hover-button.png'))
     help_button = main_canvas.create_image(
         help_button_x, help_button_y,
         image=vm_help_button_image,
-        anchor='center'
+        anchor='n'
     )
     main_canvas.tag_bind(help_button, "<Enter>", help_button_entered)
     main_canvas.tag_bind(help_button, "<Leave>", help_button_left)
@@ -709,15 +716,15 @@ def main_screen():
     help_image_x = 0
     help_image_y = 0
 
-    vm_help_image = Image.open('assets/virtual-mouse-documentation/all.png')
+    vm_help_image = Image.open(resource_path('assets/virtual-mouse-documentation/all.png'))
     vm_help_image = vm_help_image.resize((screen_width, screen_height), Image.NEAREST)
     vm_help_image = ImageTk.PhotoImage(vm_help_image)
 
-    ac_help_image = Image.open('assets/air-canvas-documentation/all.png')
+    ac_help_image = Image.open(resource_path('assets/air-canvas-documentation/all.png'))
     ac_help_image = ac_help_image.resize((screen_width, screen_height), Image.NEAREST)
     ac_help_image = ImageTk.PhotoImage(ac_help_image)
 
-    hg_help_image = Image.open('assets/hand-gesture-documentation/all.png')
+    hg_help_image = Image.open(resource_path('assets/hand-gesture-documentation/all.png'))
     hg_help_image = hg_help_image.resize((screen_width, screen_height), Image.NEAREST)
     hg_help_image = ImageTk.PhotoImage(hg_help_image)
 
@@ -726,7 +733,7 @@ def main_screen():
     # back button
     back_button_x = screen_width / 9
     back_button_y = screen_height / 5
-    back_button_image = PhotoImage(file='assets/main-screen-commons/main-left-swipe-button.png')
+    back_button_image = PhotoImage(file=resource_path('assets/main-screen-commons/main-left-swipe-button.png'))
     back_button = 0
 
     main_window.protocol('WM_DELETE_WINDOW', on_close)
@@ -746,25 +753,30 @@ splash_canvas = Canvas(splash, width=screen_width, height=screen_height)
 splash_canvas.pack(fill='both', expand=True)
 
 # adding background image
-background_image = Image.open('assets/splash-screen/splash-white.png')
+background_image = Image.open(resource_path('assets/splash-screen/splash-white.png'))
 background_image_resized = background_image.resize((screen_width, screen_height), Image.NEAREST)
 background_image_resized = ImageTk.PhotoImage(background_image_resized)
 splash_canvas.create_image(0, 0, image=background_image_resized, anchor='nw')
 
 # aeromotion text
-text_x = (screen_width / 1.65)
-text_y = (screen_height / 2)
-splash_canvas.create_text(text_x, text_y, text="AEROMOTION", font=('Poppins Bold', 70), fill='#0B0B45', anchor='center')
+text_x = (screen_width / 2.7)
+text_y = (screen_height / 2.3)
+app_name = PhotoImage(file=resource_path('assets/splash-screen/app_name.png'))
+splash_canvas.create_image(
+    text_x, text_y,
+    image=app_name,
+    anchor='nw'
+)
 
 # adding logo image
-logo_image = PhotoImage(file='assets/splash-screen/logo-280.png')
-logo_x = (screen_width / 3.4)
-logo_y = (screen_height / 2.1)
-splash_canvas.create_image(logo_x, logo_y, image=logo_image, anchor='center')
+logo_image = PhotoImage(file=resource_path('assets/splash-screen/logo-280.png'))
+logo_x = (screen_width / 2.9)
+logo_y = (screen_height / 3.1)
+splash_canvas.create_image(logo_x, logo_y, image=logo_image, anchor='ne')
 
 # Splash screen music
 pygame.mixer.init()
-pygame.mixer.music.load("assets/splash-screen/splash-screen-sound.mp3")
+pygame.mixer.music.load(resource_path("assets/splash-screen/splash-screen-sound.mp3"))
 pygame.mixer.music.play()
 
 splash.after(4000, main_screen)

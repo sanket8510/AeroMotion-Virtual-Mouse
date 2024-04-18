@@ -7,3 +7,4 @@ numpy~=1.26.4
 screen_brightness_control~=0.22.2
 PyGetWindow~=0.0.9
 mediapipe~=0.10.10
+pyglet~=2.0.15

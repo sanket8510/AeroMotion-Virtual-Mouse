@@ -1,12 +1,24 @@
 import cv2
 import numpy as np
-import os
+import os, sys
 import pyautogui as pag
 from HandTrackingModule import HandDetector, fingers
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import PhotoImage
 import customtkinter as ctk
+
+
+# https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 class ImageHolder:
@@ -154,7 +166,7 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, screen_width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
 
 # Load header image
-folderPath = "assets/Header"
+folderPath = resource_path("assets/Header")
 mylist = os.listdir(folderPath)
 overLay = []
 
@@ -166,7 +178,7 @@ for imPath in mylist:
 header_colors = overLay[0]
 
 # Load Thickness image
-thickness_path = "assets/SideBar"
+thickness_path = resource_path("assets/SideBar")
 mylist3 = os.listdir(thickness_path)
 
 Thick = []
@@ -177,7 +189,7 @@ for imPath3 in mylist3:
 side_thickness = Thick[0]
 
 # Eraser and TextBox
-eraser_path = "assets/Eraser_Thickness"
+eraser_path = resource_path("assets/Eraser_Thickness")
 mylist4 = os.listdir(eraser_path)
 EraserLay = []
 
@@ -189,7 +201,7 @@ side_eraser = EraserLay[0]
 
 # Shapes
 
-ShapesPath = "assets/Shapes"
+ShapesPath = resource_path("assets/Shapes")
 mylist2 = os.listdir(ShapesPath)
 
 Shapes = []
@@ -201,7 +213,7 @@ header_shapes = Shapes[0]
 
 # Load Buttons
 
-ButtonsPath = "assets/Buttons"
+ButtonsPath = resource_path("assets/Buttons")
 mylist3 = os.listdir(ButtonsPath)
 
 Buttons_lay = []
